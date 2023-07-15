@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+# from rest_framework import status
+
 # Create your views here.
 # def list(request):
 #     return HttpResponse("hello")
@@ -31,7 +33,7 @@ def listdetails(request,pk):
     serializer=bloodserializer(model,many=False)
     return Response(serializer.data)
     
-#This function is for post
+#This function is for add
 #Adding data with our API (Django rest_framework is also API)
 
 @api_view(['POST'])    #This view will allow only post method
@@ -95,6 +97,7 @@ path in the URL'''
 
 #This is a function for update
 
+'''
 @api_view(['PUT'])
 def updateDoner(request, pk):
     data = request.data
@@ -103,7 +106,44 @@ def updateDoner(request, pk):
 
     if serializer.is_valid():
        serializer.save()
-    return Response(serializer.data)
+    return Response(serializer.data) '''
+    
 
+#cloned
+'''@api_view(['PUT','PATCH'])
+def update_info(request, pk):
+    info_obj = blood.objects.get(pk=pk)
+    serializer = bloodserializer(info_obj, data=request.data)
+    #if serializer.is_valid():
+        #serializer.save()
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data,status=status.HTTP_200_OK  )
+ 
+'''
+
+
+'''
+@api_view(['PUT','PATCH'])
+def updatedoner(request, pk):
+    info_obj = blood.objects.get(pk=pk)
+    serializer = bloodserializer(info_obj, data=request.data)
+    #if serializer.is_valid():
+        #serializer.save()
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data,status=status.HTTP_200_OK)'''
+    
+@api_view(['PUT'])
+def updatedoner(request,pk):
+    modela= blood.objects.get(id=pk)      
+    converter=bloodserializer(instance=modela, data=request.data)
+    
+    if converter.is_valid():
+        converter.save()
+    
+    return Response(converter.data)    
+    
+    
 
 
